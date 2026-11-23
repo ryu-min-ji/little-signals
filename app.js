@@ -203,6 +203,114 @@
   });
   drawRecords();
 
+  /* ---------- 배너 슬라이드 ---------- */
+  (function carousel(){
+    const slides = $$(".slide"), bar = $("#heroBar"), now = $("#heroNow"), pauseBtn = $("#pauseSlide");
+    const DUR = 6500; let i = 0, t0 = performance.now(), paused = calm, hover = false, raf;
+    function show(k){
+      i = (k + slides.length) % slides.length;
+      slides.forEach((s, n) => { s.classList.toggle("on", n === i); s.setAttribute("aria-hidden", String(n !== i)); });
+      now.textContent = i + 1; t0 = performance.now(); bar.style.width = "0%";
+    }
+    function tick(ts){
+      if (!paused && !hover){
+        const p = Math.min(1, (ts - t0) / DUR); bar.style.width = (p * 100) + "%";
+        if (p >= 1) show(i + 1);
+      } else t0 = ts - (parseFloat(bar.style.width) || 0) / 100 * DUR;
+      raf = requestAnimationFrame(tick);
+    }
+    $("#prevSlide").addEventListener("click", () => show(i - 1));
+    $("#nextSlide").addEventListener("click", () => show(i + 1));
+    pauseBtn.addEventListener("click", () => { paused = !paused; pauseBtn.textContent = paused ? "▶" : "❚❚"; pauseBtn.setAttribute("aria-label", paused ? "자동 넘김 다시 시작" : "자동 넘김 멈추기"); });
+    if (calm){ pauseBtn.textContent = "▶"; pauseBtn.setAttribute("aria-label", "자동 넘김 다시 시작"); }
+    const hero = $(".hero");
+    hero.addEventListener("mouseenter", () => hover = true); hero.addEventListener("mouseleave", () => hover = false);
+    hero.addEventListener("focusin", () => hover = true); hero.addEventListener("focusout", () => hover = false);
+    show(0); raf = requestAnimationFrame(tick);
+  })();
+
+  /* ---------- 상황 연습 ---------- */
+  const SCENES = [
+    { id:"night", who:"🏘️ 이웃이라면", tab:"밤마다 들리는 소리",
+      text:"밤 11시, 옆집에서 아이 우는 소리와 어른의 고함이 30분째 들려요. 지난주에도 비슷한 소리를 들었어요.",
+      q:"이럴 때 나는 어떻게 할까요?",
+      choices:[
+        { t:"남의 집 일이니 모른 척한다.", ok:false, fb:"가해자의 대부분이 부모라서, 집 밖의 이웃이 알리지 않으면 아무도 모를 수 있어요. 신고는 '참견'이 아니라 아이를 지키는 일이에요." },
+        { t:"직접 찾아가 문을 두드리고 따진다.", ok:false, fb:"마음은 이해되지만, 직접 맞서면 나도 위험하고 아이에게 더 큰 화가 미칠 수 있어요. 확인과 개입은 경찰과 전문가에게 맡겨요." },
+        { t:"들린 시간과 내용을 적고, 112에 알린다.", ok:true, fb:"가장 좋은 방법이에요. 반복되는 소리는 날짜와 시간을 적어 두면 큰 도움이 돼요. 의심만으로도 신고할 수 있어요." }]},
+    { id:"bruise", who:"🧑‍🏫 학원 강사라면", tab:"팔에 보인 멍",
+      text:"수업 중 한 아이의 팔 안쪽에 멍이 보여요. 괜찮냐고 묻자 '넘어졌어요'라며 얼른 소매를 내려요.",
+      q:"이럴 때 나는 어떻게 할까요?",
+      choices:[
+        { t:"부모에게 전화해서 무슨 일인지 물어본다.", ok:false, fb:"보호자가 가해자일 수 있어서, 먼저 연락하면 아이가 더 위험해지거나 증거가 사라질 수 있어요." },
+        { t:"아이를 따로 불러 누가 그랬는지 자세히 캐묻는다.", ok:false, fb:"캐묻는 질문은 아이를 힘들게 하고, 이후 조사에도 영향을 줄 수 있어요. 아이가 먼저 말하면 믿고 들어 주세요." },
+        { t:"본 것을 기록하고, 신고의무자로서 112에 신고한다.", ok:true, fb:"맞아요. 학원 강사와 교직원은 아동학대 신고의무자예요. 직무 중 학대가 의심되면 바로 신고해야 해요." }]},
+    { id:"friend", who:"🤝 친구의 부모라면", tab:"집에 가기 싫은 아이",
+      text:"딸과 놀러 온 친구가 저녁이 되자 '집에 가기 싫어요. 아빠한테 또 혼나요'라고 작게 말해요.",
+      q:"이럴 때 나는 어떻게 할까요?",
+      choices:[
+        { t:"\"그래도 집에는 가야지\" 하고 바로 돌려보낸다.", ok:false, fb:"아이는 용기를 내서 신호를 보냈어요. 그냥 넘기면 아이는 다시는 말하지 않을 수도 있어요." },
+        { t:"\"말해 줘서 고마워\" 하고 들어 준 뒤, 걱정되면 112에 알린다.", ok:true, fb:"좋아요. 아이의 말을 믿고 들어 주는 것이 먼저예요. 들은 말을 그대로 기록하고, 걱정된다면 112에 상담하듯 알려 주세요." },
+        { t:"그 아이의 아빠에게 연락해서 따진다.", ok:false, fb:"직접 따지면 아이가 집에서 더 힘든 상황에 놓일 수 있어요. 판단과 개입은 전문가에게 맡겨요." }]}
+  ];
+  const sceneDone = {}; let sceneIdx = 0;
+  function drawSceneTabs(){
+    $("#sceneTabs").innerHTML = SCENES.map((s, k) => `<button class="scene-tab" role="tab" aria-selected="${k === sceneIdx}" data-k="${k}">${s.tab}${sceneDone[s.id] !== undefined ? ` <span class="done">${sceneDone[s.id] ? "정답" : "완료"}</span>` : ""}</button>`).join("");
+  }
+  function drawScene(){
+    const s = SCENES[sceneIdx];
+    $("#scene").innerHTML = `<span class="scene-who">${s.who}</span><p class="scene-text">${s.text}</p><p class="scene-q">${s.q}</p>
+      <div class="choices">${s.choices.map((c, k) => `<button class="choice" type="button" data-k="${k}"><span class="key">${"ABC"[k]}</span><span>${c.t}</span></button>`).join("")}</div><div id="fbBox"></div>`;
+    drawSceneTabs();
+  }
+  $("#sceneTabs").addEventListener("click", e => { const b = e.target.closest("[data-k]"); if (b){ sceneIdx = +b.dataset.k; drawScene(); } });
+  $("#scene").addEventListener("click", e => {
+    const b = e.target.closest(".choice"); if (!b || b.disabled) return;
+    const s = SCENES[sceneIdx], k = +b.dataset.k, c = s.choices[k];
+    $$("#scene .choice").forEach((x, n) => { x.disabled = true; if (s.choices[n].ok) x.classList.add("best"); });
+    if (!c.ok) b.classList.add("wrong");
+    const best = s.choices.find(x => x.ok);
+    $("#fbBox").innerHTML = `<div class="feedback ${c.ok ? "good" : "soso"}"><b>${c.ok ? "좋은 선택이에요!" : "이렇게 하면 더 좋아요"}</b>${c.fb}${c.ok ? "" : `<br><br><b>더 좋은 방법</b>${best.fb}`}</div>
+      <div class="scene-next">${sceneIdx < SCENES.length - 1 ? `<button class="btn green" type="button" id="nextScene">다음 상황 보기</button>` : `<a class="btn green" href="#cards">신호 카드 다시 보기</a>`}</div>`;
+    if (sceneDone[s.id] === undefined) sceneDone[s.id] = c.ok;
+    drawSceneTabs();
+    const n = Object.keys(sceneDone).length, right = Object.values(sceneDone).filter(Boolean).length;
+    $("#sceneScore").textContent = n === SCENES.length ? `세 가지 상황 중 ${right}개를 가장 좋은 방법으로 골랐어요. ${right === 3 ? "이미 든든한 지킴이예요! 🌱" : "이제 망설이지 않을 수 있어요."}` : `${n} / ${SCENES.length} 상황 완료`;
+    const next = $("#nextScene"); if (next) next.addEventListener("click", () => { sceneIdx++; drawScene(); $("#scene").scrollIntoView({ behavior:"smooth", block:"center" }); });
+  });
+  drawScene();
+
+  /* ---------- 지킴이 카드 ---------- */
+  async function makeKeeperCard(name){
+    try { await Promise.all([document.fonts.load('700 40px "Pretendard"'), document.fonts.load('700 40px "Gaegu"')]); } catch {}
+    const W = 1080, H = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+    const c = cv.getContext("2d");
+    const rr = (x, y, w, h, r) => { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); };
+    const F = '"Pretendard","Malgun Gothic",sans-serif', HAND = '"Gaegu","Pretendard",cursive';
+    c.fillStyle = "#F1F4F9"; c.fillRect(0, 0, W, H);
+    c.save(); c.shadowColor = "rgba(0,0,0,.12)"; c.shadowBlur = 50; c.shadowOffsetY = 20; c.fillStyle = "#fff"; rr(80, 80, W - 160, H - 160, 56); c.fill(); c.restore();
+    c.fillStyle = "#89A230"; c.beginPath(); c.arc(W / 2, 290, 110, 0, Math.PI * 2); c.fill();
+    c.strokeStyle = "#fff"; c.lineWidth = 12; c.lineCap = "round"; c.beginPath(); c.arc(W / 2, 280, 52, Math.PI * .15, Math.PI * .85); c.stroke();
+    c.fillStyle = "#fff"; c.beginPath(); c.arc(W / 2 - 34, 262, 12, 0, Math.PI * 2); c.arc(W / 2 + 34, 262, 12, 0, Math.PI * 2); c.fill();
+    c.fillStyle = "#F6CD55"; c.beginPath(); c.arc(W / 2 + 92, 200, 26, 0, Math.PI * 2); c.fill();
+    c.textAlign = "center";
+    c.fillStyle = "#89A230"; c.font = `700 36px ${F}`; c.fillText("우리 동네 아이 지킴이", W / 2, 480);
+    c.fillStyle = "#1C1B1B"; c.font = `800 84px ${F}`; c.fillText(`${name} 님`, W / 2, 590);
+    c.fillStyle = "#564F49"; c.font = `700 46px ${HAND}`;
+    ["아이의 작은 신호를", "지나치지 않는 좋은 이웃이", "되기로 약속했어요"].forEach((l, k) => c.fillText(l, W / 2, 720 + k * 72));
+    c.fillStyle = "#F1F4F9"; rr(200, 960, W - 400, 120, 60); c.fill();
+    c.fillStyle = "#D14B35"; c.font = `800 44px ${F}`; c.fillText("위급하면 112", W / 2, 1036);
+    const d = new Date(); c.fillStyle = "#8F8581"; c.font = `600 30px ${F}`;
+    c.fillText(`${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}  ·  ryu-min-ji.github.io/little-signals`, W / 2, 1170);
+    const blob = await new Promise(r => cv.toBlob(r, "image/png"));
+    const file = new File([blob], "아이지킴이카드.png", { type:"image/png" });
+    try { if (navigator.canShare && navigator.canShare({ files:[file] })){ await navigator.share({ files:[file], title:"우리 동네 아이 지킴이" }); return; } } catch (e){ if (e && e.name === "AbortError") return; }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "아이지킴이카드.png"; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    toast("지킴이 카드를 저장했어요");
+  }
+  $("#pledgeForm").addEventListener("submit", e => { e.preventDefault(); makeKeeperCard($("#pledgeName").value.trim().slice(0, 12) || "나"); });
+
   /* ---------- 공유 ---------- */
   function toast(m){ const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("on"), 2400); }
   $("#share").addEventListener("click", async () => {
@@ -215,14 +323,14 @@
   const nav = $("#nav"); addEventListener("scroll", () => nav.classList.toggle("scrolled", scrollY > 8), { passive:true });
   const links = $$(".menu a");
   const secObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id)); }), { rootMargin:"-45% 0px -50% 0px" });
-  ["why","cards","plan","faq"].forEach(id => secObs.observe(document.getElementById(id)));
+  ["why","cards","practice","plan","faq"].forEach(id => secObs.observe(document.getElementById(id)));
 
   function countUp(el){
     const end = parseFloat(el.dataset.count), dec = (el.dataset.count.split(".")[1] || "").length, t0 = performance.now(), dur = 1300;
     const step = now => { const p = Math.min(1, (now - t0) / dur), v = end * (1 - Math.pow(1 - p, 3)); el.textContent = dec ? v.toFixed(dec) : Math.round(v).toLocaleString("ko-KR"); if (p < 1) requestAnimationFrame(step); };
     requestAnimationFrame(step);
   }
-  $$(".sec-head, .stats, .loss, .deck, .plan-grid, .record, .qa, .gn-box").forEach(el => el.classList.add("reveal"));
+  $$(".sec-head, .stats, .loss, .deck, .scene, .plan-grid, .record, .qa, .gn-grid").forEach(el => el.classList.add("reveal"));
   const rev = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     e.target.classList.add("in"); rev.unobserve(e.target);

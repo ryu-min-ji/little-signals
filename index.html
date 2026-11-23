@@ -13,83 +13,125 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#5E7322">
+<meta name="theme-color" content="#89A230">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link rel="stylesheet" href="style.css?v=1">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
 <header class="nav" id="nav">
   <div class="wrap">
     <a class="logo" href="#top" aria-label="아이의 작은 신호 처음으로">
-      <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="9" fill="#5E7322"/><path d="M10 19c2.5 3 9.5 3 12 0" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/><circle cx="12" cy="13" r="2" fill="#fff"/><circle cx="20" cy="13" r="2" fill="#fff"/><circle cx="24.5" cy="7.5" r="3" fill="#F6CD55"/></svg>
+      <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="9" fill="#89A230"/><path d="M10 19c2.5 3 9.5 3 12 0" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/><circle cx="12" cy="13" r="2" fill="#fff"/><circle cx="20" cy="13" r="2" fill="#fff"/><circle cx="24.5" cy="7.5" r="3" fill="#F6CD55"/></svg>
       <b>아이의 작은 신호</b>
     </a>
     <nav class="menu" aria-label="주요 메뉴">
       <a href="#why">왜 필요할까</a>
       <a href="#cards">신호 카드</a>
-      <a href="#plan">나의 지킴 계획</a>
+      <a href="#practice">상황 연습</a>
+      <a href="#plan">지킴 계획</a>
       <a href="#faq">망설여질 때</a>
     </nav>
-    <a class="sos" href="tel:112" aria-label="위급하면 112에 신고하기"><span class="sos-dot"></span>위급하면 112</a>
+    <a class="sos" href="tel:112" aria-label="위급하면 112에 신고하기"><span class="sos-dot"></span>112 신고</a>
   </div>
 </header>
 
 <main id="top">
-  <!-- 히어로 -->
-  <section class="hero">
-    <div class="wrap">
-      <div class="hero-text">
-        <span class="badge">11월 19일~25일 아동학대 예방 주간</span>
-        <h1 class="display">아이들은 말 대신<br><span class="hl">작은 신호</span>를 보내요</h1>
-        <p class="lead">"혹시 내가 본 게 학대일까?" 확신이 없어 망설이는 어른을 위해 만들었어요. 아이의 시선으로 신호를 읽고, 지금 내가 할 수 있는 한 걸음을 찾아보세요.</p>
-        <div class="btns">
-          <a class="btn" href="#cards">신호 카드 살펴보기</a>
-          <a class="btn ghost" href="#plan">나의 지킴 계획 만들기</a>
+  <!-- 배너 슬라이드 -->
+  <section class="hero" aria-roledescription="carousel" aria-label="주요 안내">
+    <div class="slides" id="slides">
+      <article class="slide on" aria-roledescription="slide" aria-label="1 / 3">
+        <div class="wrap slide-in">
+          <div class="slide-text">
+            <span class="pill-tag">11월 19일~25일 아동학대 예방 주간</span>
+            <h1>아이들은 말 대신<br>작은 신호를 보내요</h1>
+            <p>"혹시 내가 본 게 학대일까?" 확신이 없어 망설이는 어른을 위해 만들었어요. 아이의 시선으로 신호를 읽고, 지금 할 수 있는 한 걸음을 찾아보세요.</p>
+            <a class="btn white" href="#cards">신호 카드 보기</a>
+          </div>
+          <div class="slide-art" aria-hidden="true">
+            <div class="bubble b1"><span class="em">🧥</span><span class="voice">"저 안 추워요"</span></div>
+            <div class="bubble b2"><span class="em">🏠</span><span class="voice">"집에 가기 싫어요"</span></div>
+            <div class="bubble b3"><span class="em">🩹</span><span class="voice">"넘어져서 다친 거예요"</span></div>
+          </div>
         </div>
-        <p class="note">이 서비스는 학대 여부를 판정하지 않아요. 알아차리고 전문가에게 연결하도록 돕는 안내서예요.</p>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="2 / 3">
+        <div class="wrap slide-in">
+          <div class="slide-text">
+            <span class="pill-tag">2024 아동학대 통계</span>
+            <h2>신고의 78.5%는<br>평범한 이웃에게서 왔어요</h2>
+            <p>학대 가해자의 84.1%는 부모예요. 집 안에서 일어나는 일이라, 아이 곁의 평범한 어른이 알아차리는 것이 가장 큰 안전망이에요.</p>
+            <a class="btn white" href="#why">숫자로 보기</a>
+          </div>
+          <div class="slide-art big-num" aria-hidden="true"><b>78.5<small>%</small></b><span>비신고의무자의 신고</span></div>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="3 / 3">
+        <div class="wrap slide-in">
+          <div class="slide-text">
+            <span class="pill-tag">망설이는 당신에게</span>
+            <h2>확실하지 않아도<br>괜찮아요</h2>
+            <p>아동학대는 의심만으로도 누구나 신고할 수 있어요. 학대인지 아닌지는 신고 후 전문가가 판단해요. 당신은 알리기만 하면 돼요.</p>
+            <a class="btn white" href="#faq">망설여질 때 보기</a>
+          </div>
+          <div class="slide-art phone" aria-hidden="true"><div class="phone-body"><span class="phone-num">112</span><span class="phone-sub">전화 · 문자 · 아이지킴콜 앱</span></div></div>
+        </div>
+      </article>
+    </div>
+    <div class="wrap hero-ctrl">
+      <div class="bar"><i id="heroBar"></i></div>
+      <span class="count"><b id="heroNow">1</b> | 3</span>
+      <button class="arrow" id="prevSlide" aria-label="이전 안내">‹</button>
+      <button class="arrow" id="nextSlide" aria-label="다음 안내">›</button>
+      <button class="arrow" id="pauseSlide" aria-label="자동 넘김 멈추기">❚❚</button>
+    </div>
+  </section>
+
+  <!-- 빠른 메뉴 -->
+  <section class="quick" aria-label="빠른 메뉴">
+    <div class="wrap quick-in">
+      <p class="quick-msg"><b>지금 걱정되는 아이가 있나요?</b></p>
+      <div class="quick-links">
+        <a href="#cards"><span>🃏</span>신호 카드</a>
+        <a href="#practice"><span>🧭</span>상황 연습</a>
+        <a href="#plan"><span>🗺️</span>지킴 계획</a>
+        <a href="#record"><span>📝</span>기록하기</a>
       </div>
-      <div class="hero-deck" aria-hidden="true">
-        <div class="mini c1"><span class="em">🧥</span><p class="voice">"저 안 추워요"</p><span class="tag">생활</span></div>
-        <div class="mini c2"><span class="em">🏠</span><p class="voice">"집에 가기<br>싫어요"</p><span class="tag">마음</span></div>
-        <div class="mini c3"><span class="em">🩹</span><p class="voice">"넘어져서<br>다친 거예요"</p><span class="tag">몸</span></div>
-      </div>
+      <a class="btn green" href="tel:112">112 바로 신고</a>
     </div>
   </section>
 
   <!-- 숫자 -->
   <section class="block why" id="why">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="kicker">왜 필요할까요</p>
-        <h2 class="display">학대는 대부분 집 안에서,<br>알아차림은 대부분 이웃에게서</h2>
-        <p>아동학대의 가해자 대부분은 부모예요. 집 밖에서는 보이지 않기 때문에, 아이 곁의 평범한 어른이 알아차리는 것이 가장 큰 안전망이에요.</p>
+      <div class="sec-head center">
+        <h2>학대는 대부분 <em>집 안</em>에서,<br>알아차림은 대부분 <em>이웃</em>에게서</h2>
+        <p>집 밖에서는 보이지 않기 때문에, 아이 곁의 평범한 어른이 알아차리는 것이 가장 큰 안전망이에요.</p>
       </div>
       <div class="stats">
-        <div class="stat"><b data-count="50242">50,242</b><span class="unit">건</span><h3>2024년 아동학대 신고</h3><p>전년보다 3.5% 늘었어요.</p></div>
-        <div class="stat"><b data-count="24492">24,492</b><span class="unit">건</span><h3>학대로 판단된 사례</h3><p>정서 학대가 절반 가까이(1만 1,466건)예요.</p></div>
-        <div class="stat"><b data-count="84.1">84.1</b><span class="unit">%</span><h3>가해자가 부모인 비율</h3><p>매년 80%대를 유지해요.</p></div>
-        <div class="stat hl"><b data-count="78.5">78.5</b><span class="unit">%</span><h3>비신고의무자의 신고</h3><p>이웃, 친척, 아동 본인처럼 신고 의무가 없는 사람들의 신고 비율이에요(2024년). 2022년 63.7%에서 계속 늘고 있어요.</p></div>
+        <div class="stat"><span class="stat-ico">📞</span><b data-count="50242">50,242</b><span class="unit">건</span><h3>2024년 아동학대 신고</h3><p>전년보다 3.5% 늘었어요.</p></div>
+        <div class="stat"><span class="stat-ico">📋</span><b data-count="24492">24,492</b><span class="unit">건</span><h3>학대로 판단된 사례</h3><p>정서 학대가 절반 가까이(1만 1,466건)예요.</p></div>
+        <div class="stat"><span class="stat-ico">🏠</span><b data-count="84.1">84.1</b><span class="unit">%</span><h3>가해자가 부모인 비율</h3><p>매년 80%대를 유지해요.</p></div>
+        <div class="stat hl"><span class="stat-ico">🤝</span><b data-count="78.5">78.5</b><span class="unit">%</span><h3>비신고의무자의 신고</h3><p>2022년 63.7%에서 계속 늘고 있어요.</p></div>
       </div>
       <div class="loss">
         <span class="loss-num">30명</span>
         <p>2024년 한 해 동안 학대로 세상을 떠난 아이들이에요. 누군가 조금 더 일찍 알아차렸다면 달라졌을지도 몰라요.</p>
       </div>
-      <p class="src">출처: 보건복지부 2024 아동학대 연차보고서(<a href="https://www.khan.co.kr/article/202508291441001/" target="_blank" rel="noopener">경향신문</a>, <a href="https://www.segye.com/newsView/20260712512392" target="_blank" rel="noopener">세계일보</a>, <a href="https://www.hankookilbo.com/news/article/A2025083116020003114" target="_blank" rel="noopener">한국일보</a> 보도)</p>
+      <p class="src center">출처: 보건복지부 2024 아동학대 연차보고서(<a href="https://www.khan.co.kr/article/202508291441001/" target="_blank" rel="noopener">경향신문</a>, <a href="https://www.segye.com/newsView/20260712512392" target="_blank" rel="noopener">세계일보</a>, <a href="https://www.hankookilbo.com/news/article/A2025083116020003114" target="_blank" rel="noopener">한국일보</a> 보도)</p>
     </div>
   </section>
 
   <!-- 카드 -->
   <section class="block cards-sec" id="cards">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="kicker">아이의 시선 카드</p>
-        <h2 class="display">카드를 눌러<br>신호의 뜻을 확인해 보세요</h2>
-        <p>앞면은 아이가 보내는 신호, 뒷면은 어른이 알아야 할 뜻과 살펴볼 점이에요. 내가 본 적 있는 신호는 <b>담기</b>를 눌러 모아 두세요.</p>
+      <div class="sec-head center">
+        <h2>아이가 보내는 <em>작은 신호</em>를<br>카드로 살펴보세요</h2>
+        <p>카드를 누르면 신호의 뜻과 살펴볼 점이 나와요. 본 적 있는 신호는 <b>담기</b>를 눌러 모아 두세요.</p>
       </div>
       <div class="filters" role="tablist" aria-label="신호 종류">
         <button class="filter" role="tab" aria-selected="true" data-cat="all">전체</button>
@@ -97,19 +139,31 @@
         <button class="filter" role="tab" aria-selected="false" data-cat="mind">마음</button>
         <button class="filter" role="tab" aria-selected="false" data-cat="life">생활</button>
         <button class="filter" role="tab" aria-selected="false" data-cat="words">말</button>
-        <span class="picked-count" id="pickedCount" aria-live="polite">담은 신호 0개</span>
       </div>
+      <p class="picked-line"><span class="picked-count" id="pickedCount" aria-live="polite">담은 신호 0개</span> <a href="#plan">지킴 계획 만들러 가기</a></p>
       <div class="deck" id="deck"></div>
-      <p class="src">징후는 아동복지법의 학대 유형과 지자체의 아동학대 징후 안내를 바탕으로 정리했어요. 신호 하나만으로 학대라고 단정할 수 없고, 여러 신호가 함께 보일 때 더 주의 깊게 살펴봐야 해요. <a href="https://www.incheon.go.kr/welfare/WE020431" target="_blank" rel="noopener">아동학대 개념 및 유형(인천광역시)</a></p>
+      <p class="src center">징후는 아동복지법의 학대 유형과 지자체의 아동학대 징후 안내를 바탕으로 정리했어요. 신호 하나만으로 학대라고 단정할 수 없고, 여러 신호가 함께 보일 때 더 주의 깊게 살펴봐야 해요. <a href="https://www.incheon.go.kr/welfare/WE020431" target="_blank" rel="noopener">아동학대 개념 및 유형(인천광역시)</a></p>
+    </div>
+  </section>
+
+  <!-- 상황 연습 -->
+  <section class="block practice" id="practice">
+    <div class="wrap">
+      <div class="sec-head center">
+        <h2>이런 상황이라면,<br><em>나는 어떻게</em> 할까요?</h2>
+        <p>실제로 있을 법한 세 가지 상황이에요. 내가 할 행동을 골라 보고, 더 좋은 방법을 확인해 보세요.</p>
+      </div>
+      <div class="scene-tabs" role="tablist" aria-label="상황 선택" id="sceneTabs"></div>
+      <div class="scene" id="scene" aria-live="polite"></div>
+      <p class="scene-score" id="sceneScore"></p>
     </div>
   </section>
 
   <!-- 계획 -->
   <section class="block plan-sec" id="plan">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="kicker">나의 지킴 계획</p>
-        <h2 class="display">내가 본 신호로<br>지금 할 수 있는 일을 찾아요</h2>
+      <div class="sec-head center">
+        <h2>내가 본 신호로<br><em>지금 할 수 있는 일</em>을 찾아요</h2>
         <p>담은 신호와 아이와의 관계를 알려 주시면, 지금 할 수 있는 한 걸음을 정리해 드려요.</p>
       </div>
       <div class="plan-grid">
@@ -128,7 +182,7 @@
             </div>
           </div>
           <p class="err" id="err" role="alert"></p>
-          <button class="btn block" id="makePlan">나의 지킴 계획 보기</button>
+          <button class="btn green block" id="makePlan">나의 지킴 계획 보기</button>
         </div>
 
         <div class="panel plan-out" id="planOut" aria-live="polite">
@@ -160,7 +214,7 @@
       </div>
 
       <!-- 기록 -->
-      <div class="record">
+      <div class="record" id="record">
         <div class="record-head">
           <h3>본 것을 기록해 두기</h3>
           <p>날짜, 시간, 본 것과 들은 것을 사실대로 적어 두면 신고하거나 상담할 때 큰 도움이 돼요. 기록은 <b>이 기기에만</b> 저장되고 어디로도 보내지지 않아요.</p>
@@ -172,8 +226,8 @@
         </form>
         <ul class="records" id="records"></ul>
         <div class="record-actions">
-          <button class="btn ghost" id="copyRec" type="button">신고할 때 쓸 내용 복사</button>
-          <button class="btn ghost" id="clearRec" type="button">기록 모두 지우기</button>
+          <button class="btn line" id="copyRec" type="button">신고할 때 쓸 내용 복사</button>
+          <button class="btn line" id="clearRec" type="button">기록 모두 지우기</button>
         </div>
       </div>
     </div>
@@ -183,8 +237,7 @@
   <section class="block faq" id="faq">
     <div class="wrap faq-wrap">
       <div class="sec-head">
-        <p class="kicker">망설여질 때</p>
-        <h2 class="display">신고 앞에서<br>자주 하는 걱정들</h2>
+        <h2>신고 앞에서<br><em>자주 하는 걱정</em>들</h2>
         <p>신고는 아이를 지키는 첫걸음이에요. 확인과 판단은 전문가가 해요.</p>
       </div>
       <div class="qa">
@@ -212,26 +265,39 @@
     </div>
   </section>
 
-  <!-- 굿네이버스 -->
+  <!-- 굿네이버스와 약속 -->
   <section class="block gn" id="gn">
     <div class="wrap">
-      <div class="gn-box">
-        <div>
-          <p class="kicker">함께하는 사람들</p>
-          <h2 class="display">신고 이후에도<br>아이 곁을 지키는 곳이 있어요</h2>
-          <p>굿네이버스는 전국 36개 아동보호전문기관을 통해 학대 피해 아동과 가정을 지원하고, 위기가정을 미리 찾아 돕는 'GN 세이프 스타트' 사업을 하고 있어요. 꾸준한 사례관리 덕분에 관리 중 학대가 다시 일어난 비율은 2024년 15.6%에서 2025년 8.5%로 줄었어요. 알아차림이 신고로, 신고가 회복으로 이어지도록 함께해 주세요.</p>
-          <div class="btns">
-            <a class="btn green" href="https://www.goodneighbors.kr/story/storycast/3155/view.gn" target="_blank" rel="noopener">굿네이버스 아동보호 이야기</a>
-            <button class="btn ghost" id="share" type="button">이 안내서 공유하기</button>
-          </div>
-          <p class="src">출처: <a href="https://www.goodneighbors.kr/story/press/8712/view.gn" target="_blank" rel="noopener">굿네이버스 보도자료(GN 세이프 스타트)</a>, <a href="https://www.ngonews.kr/news/articleView.html?idxno=243472" target="_blank" rel="noopener">한국NGO신문(굿네이버스 사례관리 성과 분석)</a></p>
+      <div class="sec-head center">
+        <h2>알아차림이 신고로,<br><em>신고가 회복으로</em></h2>
+        <p>신고 이후에도 아이 곁을 지키는 곳이 있어요.</p>
+      </div>
+      <div class="gn-grid">
+        <div class="gn-card">
+          <div class="gn-num"><b>36</b>곳</div>
+          <h3>굿네이버스가 운영하는 아동보호전문기관</h3>
+          <p>학대 피해 아동과 가정을 지원하고, 위기가정을 미리 찾아 돕는 'GN 세이프 스타트' 사업을 하고 있어요.</p>
+          <a href="https://www.goodneighbors.kr/story/press/8712/view.gn" target="_blank" rel="noopener">굿네이버스 보도자료</a>
         </div>
-        <div class="gn-cards" aria-hidden="true">
-          <div class="gn-step"><span>1</span>알아차리기</div>
-          <div class="gn-step"><span>2</span>기록하기</div>
-          <div class="gn-step"><span>3</span>신고하기</div>
-          <div class="gn-step"><span>4</span>보호와 회복</div>
+        <div class="gn-card">
+          <div class="gn-num"><b>15.6</b>% <span>→</span> <b>8.5</b>%</div>
+          <h3>사례관리 중 학대가 다시 일어난 비율</h3>
+          <p>2024년에서 2025년 사이, 꾸준한 상담과 가정 지원으로 재학대가 크게 줄었어요(굿네이버스 분석).</p>
+          <a href="https://www.ngonews.kr/news/articleView.html?idxno=243472" target="_blank" rel="noopener">한국NGO신문</a>
         </div>
+        <div class="gn-card pledge-card">
+          <h3>나도 우리 동네 아이 지킴이</h3>
+          <p>아이의 작은 신호를 지나치지 않겠다고 약속하고, 이름이 들어간 지킴이 카드를 받아 보세요. 이름은 카드에만 쓰여요.</p>
+          <form class="pledge-form" id="pledgeForm">
+            <label class="sr" for="pledgeName">이름 또는 별명</label>
+            <input id="pledgeName" maxlength="12" placeholder="이름 또는 별명" autocomplete="off">
+            <button class="btn green" type="submit">지킴이 카드 받기</button>
+          </form>
+        </div>
+      </div>
+      <div class="gn-actions">
+        <a class="btn green" href="https://www.goodneighbors.kr/story/storycast/3155/view.gn" target="_blank" rel="noopener">굿네이버스 아동보호 이야기</a>
+        <button class="btn line" id="share" type="button">이 안내서 공유하기</button>
       </div>
     </div>
   </section>
@@ -240,7 +306,7 @@
 <footer>
   <div class="wrap">
     <div>
-      <span class="logo"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="9" fill="#8BA332"/><path d="M10 19c2.5 3 9.5 3 12 0" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/><circle cx="12" cy="13" r="2" fill="#fff"/><circle cx="20" cy="13" r="2" fill="#fff"/><circle cx="24.5" cy="7.5" r="3" fill="#F6CD55"/></svg><b>아이의 작은 신호</b></span>
+      <span class="logo"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="9" fill="#89A230"/><path d="M10 19c2.5 3 9.5 3 12 0" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/><circle cx="12" cy="13" r="2" fill="#fff"/><circle cx="20" cy="13" r="2" fill="#fff"/><circle cx="24.5" cy="7.5" r="3" fill="#F6CD55"/></svg><b>아이의 작은 신호</b></span>
       <p>굿네이버스 서울인천권역본부 Web:메이커스 1기 활동으로 만든 개인 프로젝트예요. 굿네이버스 공식 서비스가 아니며, 학대 여부를 판정하지 않아요. 아이가 위험하다고 느껴지면 망설이지 말고 112에 신고해 주세요.</p>
       <p>관련 SDGs: 16.2 아동에 대한 학대·착취·폭력 근절</p>
     </div>
@@ -251,15 +317,15 @@
         <li><a href="https://www.segye.com/newsView/20260712512392" target="_blank" rel="noopener">가해자 80% 이상이 부모 (세계일보)</a></li>
         <li><a href="https://www.hankookilbo.com/news/article/A2025083116020003114" target="_blank" rel="noopener">비신고의무자 신고 비율 (한국일보)</a></li>
         <li><a href="https://www.incheon.go.kr/welfare/WE020431" target="_blank" rel="noopener">아동학대 개념 및 유형 (인천광역시)</a></li>
-        <li><a href="https://www.goodneighbors.kr/story/press/8712/view.gn" target="_blank" rel="noopener">GN 세이프 스타트 (굿네이버스)</a></li>
-        <li><a href="https://www.ngonews.kr/news/articleView.html?idxno=243472" target="_blank" rel="noopener">굿네이버스 사례관리 성과 (한국NGO신문)</a></li>
         <li><a href="https://mediahub.seoul.go.kr/archives/1297482" target="_blank" rel="noopener">아이지킴콜 112 (서울시)</a></li>
         <li><a href="https://m.korea.kr/briefing/pressReleaseView.do?newsId=156581226" target="_blank" rel="noopener">아동학대 신고와 공익신고 (국민권익위원회)</a></li>
+        <li><a href="https://www.goodneighbors.kr/story/press/8712/view.gn" target="_blank" rel="noopener">GN 세이프 스타트 (굿네이버스)</a></li>
+        <li><a href="https://www.ngonews.kr/news/articleView.html?idxno=243472" target="_blank" rel="noopener">굿네이버스 사례관리 성과 (한국NGO신문)</a></li>
       </ul>
     </div>
   </div>
 </footer>
 <div class="toast" id="toast" role="status"></div>
-<script src="app.js?v=1"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>
