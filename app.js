@@ -47,6 +47,23 @@
       look:"캐묻지 말고 들은 말을 그대로 기록해 두세요. 다시 말하게 하지 않아도 돼요.", urgent:true }
   ];
 
+  // 신호마다 아이에게 부드럽게 다가가는 첫마디 (캐묻지 않고 마음을 여는 말)
+  const TALK = {
+    injury:"\"다친 데 괜찮아? 아프면 언제든 말해 줘.\"",
+    clothes:"\"오늘 춥지? 따뜻한 거 한 잔 마실래?\"",
+    hungry:"\"배고프면 언제든 말해. 같이 간식 먹을까?\"",
+    sick:"\"많이 아파 보이네. 어른이 도와줄게.\"",
+    sorry:"\"괜찮아, 실수해도 돼. 너 잘하고 있어.\"",
+    home:"\"요즘 집에 가는 게 힘들어? 이야기하고 싶으면 들을게.\"",
+    changed:"\"요즘 기운이 없어 보여서 걱정됐어. 무슨 일 있으면 말해 줘.\"",
+    afraid:"\"말해 줘서 고마워. 네가 안전한 게 제일 중요해.\"",
+    noise:"아이와 마주치면 \"안녕, 오늘 하루 어땠어?\" 하고 다정하게 인사해 주세요.",
+    alone:"\"혼자 있을 때 무서우면 어른에게 말해도 돼.\"",
+    absent:"\"보고 싶었어. 학교 오는 게 힘든 일이 있었니?\"",
+    secret:"\"어른이 지키라고 한 비밀이라도, 무서운 비밀은 말해도 괜찮아.\"",
+    told:"\"말해 줘서 고마워. 네 잘못이 아니야. 어른이 도와줄게.\""
+  };
+
   const picked = new Set();
   const state = { role:null, cat:"all" };
 
@@ -65,6 +82,7 @@
           <h4>${CATS[c.cat]}의 신호 · ${c.short}</h4>
           <p class="mean">${c.mean}</p>
           <p class="look">${c.look}</p>
+          <p class="talk-line"><span>이렇게 말을 건네 보세요</span>${TALK[c.id]}</p>
           ${c.urgent ? `<p class="urgent">이 신호가 보이면 빠르게 112에 알려 주세요</p>` : ""}
           <div class="back-actions">
             <button class="pick" type="button" aria-pressed="false">내가 본 신호로 담기</button>
@@ -310,6 +328,100 @@
     toast("지킴이 카드를 저장했어요");
   }
   $("#pledgeForm").addEventListener("submit", e => { e.preventDefault(); makeKeeperCard($("#pledgeName").value.trim().slice(0, 12) || "나"); });
+
+  /* ---------- 어린이용 화면 ---------- */
+  (function kids(){
+    const dlg = $("#kids"), openBtn = $("#kidsOpen"), closeBtn = $("#kidsClose");
+    const open = () => { dlg.hidden = false; document.body.style.overflow = "hidden"; closeBtn.focus(); };
+    const close = () => { dlg.hidden = true; document.body.style.overflow = ""; openBtn.focus(); };
+    openBtn.addEventListener("click", open);
+    closeBtn.addEventListener("click", close);
+    dlg.addEventListener("click", e => { if (e.target === dlg) close(); });
+    document.addEventListener("keydown", e => {
+      if (dlg.hidden) return;
+      if (e.key === "Escape") close();
+      if (e.key === "Tab"){ // 화면 안에서만 이동
+        const f = [...dlg.querySelectorAll("button, a[href]")]; const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }
+    });
+  })();
+
+  /* ---------- 큰 글씨 ---------- */
+  (function bigText(){
+    const btn = $("#bigText"), KEYB = "little-signals-big";
+    const set = on => { document.documentElement.classList.toggle("big", on); btn.setAttribute("aria-pressed", String(on)); try { localStorage.setItem(KEYB, on ? "1" : "0"); } catch {} };
+    let on = false; try { on = localStorage.getItem(KEYB) === "1"; } catch {}
+    set(on);
+    btn.addEventListener("click", () => { on = !on; set(on); toast(on ? "글씨를 크게 했어요" : "글씨를 원래 크기로 했어요"); });
+  })();
+
+  /* ---------- 신고 문장 만들기 ---------- */
+  const ROLE_NAME = { neighbor:"이웃", teacher:"선생님(강사)", family:"친척", parent:"친구의 부모" };
+  let scriptPlain = "";
+  $("#scriptForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const place = $("#scPlace").value.trim(), age = $("#scAge").value, now = $("#scNow").value === "yes";
+    const sig = CARDS.filter(c => picked.has(c.id)).map(c => c.short);
+    const parts = [];
+    parts.push(now ? ["안녕하세요. 지금 아이가 위험해 보여서 신고합니다."] : ["안녕하세요. 아동학대가 의심되어 신고합니다."]);
+    if (place) parts.push(["장소는 ", { m:place }, "입니다."]);
+    if (age) parts.push([{ m:age }, " 아이예요."]);
+    if (state.role) parts.push(["저는 그 아이의 ", { m:ROLE_NAME[state.role] }, "입니다."]);
+    if (sig.length) parts.push(["제가 본 것은 ", { m:sig.join(", ") }, "입니다."]);
+    if (records.length) parts.push(["기록해 둔 내용은 이렇습니다.\n", ...records.flatMap((r, k) => [(k ? "\n" : "") + "- ", { m:`${fmt(r.when)} ${r.what}` }])]);
+    if (!sig.length && !records.length) parts.push(["제가 본 것은 ", { m:"(본 것을 여기에 말해 주세요)" }, "입니다."]);
+    parts.push(["확인 부탁드립니다. 제 신분은 드러나지 않게 해 주세요."]);
+    const toHtml = seg => typeof seg === "string" ? esc(seg) : `<mark>${esc(seg.m)}</mark>`;
+    const toTxt = seg => typeof seg === "string" ? seg : seg.m;
+    scriptPlain = parts.map(p => p.map(toTxt).join("")).join("\n");
+    $("#scriptOut").innerHTML = `<p class="script-text">${parts.map(p => p.map(toHtml).join("")).join("\n")}</p>
+      <p class="script-tip">💡 정확한 주소나 내 연락처는 상담원이 물어보면 그때 말하면 돼요. 모르는 건 "모르겠어요"라고 해도 괜찮아요.</p>
+      <div class="script-btns"><a class="btn call" href="tel:112">112에 전화하기</a><button class="btn line" type="button" id="copyScript">문장 복사</button></div>`;
+    $("#copyScript").addEventListener("click", async () => { try { await navigator.clipboard.writeText(scriptPlain); toast("신고 문장을 복사했어요"); } catch { toast("복사하지 못했어요. 화면의 문장을 읽어 주세요"); } });
+  });
+
+  /* ---------- 계획 카드 이미지 ---------- */
+  function roundRect(c, x, y, w, h, r){ c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+  function wrapLines(c, text, maxW){
+    const out = []; let line = "";
+    for (const ch of text){ const t = line + ch; if (c.measureText(t).width > maxW && line){ const sp = line.lastIndexOf(" "); if (sp > 0){ out.push(line.slice(0, sp)); line = line.slice(sp + 1) + ch; } else { out.push(line); line = ch; } } else line = t; }
+    if (line) out.push(line); return out;
+  }
+  async function deliverPng(cv, name, title){
+    const blob = await new Promise(r => cv.toBlob(r, "image/png")), file = new File([blob], name, { type:"image/png" });
+    try { if (navigator.canShare && navigator.canShare({ files:[file] })){ await navigator.share({ files:[file], title }); return; } } catch (e){ if (e && e.name === "AbortError") return; }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000); toast("이미지를 저장했어요");
+  }
+  $("#savePlan").addEventListener("click", async () => {
+    if (!picked.size || !state.role){ toast("먼저 지킴 계획을 만들어 주세요"); return; }
+    try { await document.fonts.load('700 40px "Pretendard"'); } catch {}
+    const lv = level(), p = PLANS[lv], F = '"Pretendard","Malgun Gothic",sans-serif';
+    const W = 1080, H = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = H; const c = cv.getContext("2d");
+    c.fillStyle = "#F1F4F9"; c.fillRect(0, 0, W, H);
+    c.save(); c.shadowColor = "rgba(0,0,0,.1)"; c.shadowBlur = 40; c.shadowOffsetY = 16; c.fillStyle = "#fff"; roundRect(c, 70, 70, W - 140, H - 140, 50); c.fill(); c.restore();
+    const tagCol = { urgent:["#FCEDEA","#D14B35"], consult:["#FDF1D0","#86620C"], watch:["#EEF3DF","#6F8526"] }[lv];
+    c.font = `700 30px ${F}`; const tw = c.measureText(p.tag).width + 48;
+    c.fillStyle = tagCol[0]; roundRect(c, 130, 130, tw, 60, 30); c.fill(); c.fillStyle = tagCol[1]; c.fillText(p.tag, 154, 171);
+    c.fillStyle = "#1C1B1B"; c.font = `800 54px ${F}`; let y = 270;
+    wrapLines(c, p.title, W - 260).forEach(l => { c.fillText(l, 130, y); y += 68; });
+    c.fillStyle = "#666"; c.font = `500 28px ${F}`;
+    wrapLines(c, `내가 본 신호: ${CARDS.filter(x => picked.has(x.id)).map(x => x.short).join(", ")}`, W - 260).slice(0, 2).forEach(l => { c.fillText(l, 130, y); y += 40; });
+    y += 30;
+    p.steps.forEach((s, k) => {
+      const boxH = 190; c.fillStyle = s.now ? "#FCEDEA" : "#F8F8F8"; roundRect(c, 130, y, W - 260, boxH, 30); c.fill();
+      c.fillStyle = s.now ? "#D14B35" : "#89A230"; c.beginPath(); c.arc(185, y + 60, 30, 0, Math.PI * 2); c.fill();
+      c.fillStyle = "#fff"; c.font = `800 30px ${F}`; c.textAlign = "center"; c.fillText(String(k + 1), 185, y + 71); c.textAlign = "left";
+      c.fillStyle = "#1C1B1B"; c.font = `700 32px ${F}`; c.fillText(s.b, 236, y + 72);
+      c.fillStyle = "#666"; c.font = `500 25px ${F}`; wrapLines(c, s.s, W - 420).slice(0, 3).forEach((l, n) => c.fillText(l, 236, y + 114 + n * 34));
+      y += boxH + 18;
+    });
+    c.fillStyle = "#D14B35"; c.font = `800 40px ${F}`; c.fillText("위급하면 112", 130, H - 140);
+    c.fillStyle = "#8F8581"; c.font = `600 26px ${F}`; c.textAlign = "right"; c.fillText("ryu-min-ji.github.io/little-signals", W - 130, H - 142); c.textAlign = "left";
+    await deliverPng(cv, "나의지킴계획.png", "나의 지킴 계획");
+  });
 
   /* ---------- 공유 ---------- */
   function toast(m){ const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("on"), 2400); }

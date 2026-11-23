@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
@@ -36,9 +36,37 @@
       <a href="#plan">지킴 계획</a>
       <a href="#faq">망설여질 때</a>
     </nav>
-    <a class="sos" href="tel:112" aria-label="위급하면 112에 신고하기"><span class="sos-dot"></span>112 신고</a>
+    <div class="tools">
+      <button class="tool" id="kidsOpen" type="button" aria-haspopup="dialog">🧒 어린이용</button>
+      <button class="tool" id="bigText" type="button" aria-pressed="false" aria-label="큰 글씨로 보기">가<span>+</span></button>
+      <a class="sos" href="tel:112" aria-label="위급하면 112에 신고하기"><span class="sos-dot"></span>112 신고</a>
+    </div>
   </div>
 </header>
+
+<!-- 어린이용 화면 -->
+<div class="kids" id="kids" role="dialog" aria-modal="true" aria-labelledby="kidsTitle" hidden>
+  <div class="kids-in">
+    <button class="kids-close" id="kidsClose" type="button" aria-label="어린이용 화면 닫기">✕</button>
+    <p class="kids-hi">안녕! 이 페이지는 너를 위한 곳이야 🌱</p>
+    <h2 id="kidsTitle">나를 지키는<br>네 가지 약속</h2>
+    <ol class="kids-cards">
+      <li><span class="k-em">💚</span><b>내 몸과 마음은 소중해요</b><p>누구도 나를 때리거나, 무섭게 소리 지르거나, 싫은 곳을 만지면 안 돼요. 그건 내 잘못이 아니에요.</p></li>
+      <li><span class="k-em">🤫</span><b>무서운 비밀은 지키지 않아도 돼요</b><p>어른이 "아무한테도 말하지 마"라고 해도, 마음이 무겁고 무서운 비밀은 말해도 괜찮아요.</p></li>
+      <li><span class="k-em">🙋</span><b>믿을 수 있는 어른에게 말해요</b><p>선생님, 학원 선생님, 친구 엄마 아빠, 이웃 어른, 할머니 할아버지처럼 내가 믿는 어른에게 이야기해요.</p></li>
+      <li><span class="k-em">📞</span><b>112에 전화해도 돼요</b><p>어른에게 말하기 어렵거나 지금 무섭다면 112에 전화해요. 말하기 힘들면 112에 문자를 보내도 돼요.</p></li>
+    </ol>
+    <div class="kids-say">
+      <b>이렇게 말하면 돼요</b>
+      <p>"제가 집에서 무서운 일이 있어요. 도와주세요."</p>
+    </div>
+    <div class="kids-actions">
+      <a class="btn kids-call" href="tel:112">📞 112에 전화하기</a>
+      <a class="btn white" href="sms:112">💬 112에 문자 보내기</a>
+    </div>
+    <p class="kids-note">말해 준 너는 정말 용감한 거예요. 어른들이 꼭 도와줄게요.</p>
+  </div>
+</div>
 
 <main id="top">
   <!-- 배너 슬라이드 -->
@@ -99,7 +127,7 @@
         <a href="#cards"><span>🃏</span>신호 카드</a>
         <a href="#practice"><span>🧭</span>상황 연습</a>
         <a href="#plan"><span>🗺️</span>지킴 계획</a>
-        <a href="#record"><span>📝</span>기록하기</a>
+        <a href="#script"><span>📞</span>신고 문장</a>
       </div>
       <a class="btn green" href="tel:112">112 바로 신고</a>
     </div>
@@ -209,6 +237,10 @@
               </div>
               <p class="note">캐묻지 말고 들어 주세요. 자세한 확인은 전문가가 해요. 지킬 수 없는 비밀 약속은 하지 않아요.</p>
             </div>
+            <div class="res-actions">
+              <button class="btn green" id="savePlan" type="button">계획 카드 이미지 저장</button>
+              <a class="btn line" href="#script">신고 문장 만들기</a>
+            </div>
           </div>
         </div>
       </div>
@@ -228,6 +260,40 @@
         <div class="record-actions">
           <button class="btn line" id="copyRec" type="button">신고할 때 쓸 내용 복사</button>
           <button class="btn line" id="clearRec" type="button">기록 모두 지우기</button>
+        </div>
+      </div>
+
+      <!-- 신고 문장 만들기 -->
+      <div class="script" id="script">
+        <div class="script-head">
+          <span class="pill-mini">112에 뭐라고 말하지?</span>
+          <h3>읽기만 하면 되는 신고 문장 만들기</h3>
+          <p>전화를 걸면 떨려서 말이 잘 안 나올 수 있어요. 아래 칸을 채우면 담은 신호와 기록을 모아 <b>그대로 읽으면 되는 문장</b>을 만들어 드려요. 입력한 내용은 저장되지 않아요.</p>
+        </div>
+        <div class="script-grid">
+          <form class="script-form" id="scriptForm">
+            <label><span>어디에서 봤나요?</span><input id="scPlace" maxlength="40" placeholder="예: ○○동 ○○아파트 근처, ○○초등학교 앞"></label>
+            <label><span>아이는 몇 살쯤인가요?</span>
+              <select id="scAge">
+                <option value="">잘 모르겠어요</option>
+                <option>미취학 아동(7살 이하)으로 보이는</option>
+                <option>초등학교 저학년으로 보이는</option>
+                <option>초등학교 고학년으로 보이는</option>
+                <option>중고등학생으로 보이는</option>
+              </select>
+            </label>
+            <label><span>지금 아이가 위험한 상황인가요?</span>
+              <select id="scNow">
+                <option value="no">지금 당장은 아니에요</option>
+                <option value="yes">지금 위험해 보여요</option>
+              </select>
+            </label>
+            <button class="btn green" type="submit">신고 문장 만들기</button>
+            <p class="note">담은 신호, 아이와의 관계, 기록이 있으면 자동으로 함께 들어가요.</p>
+          </form>
+          <div class="script-out" id="scriptOut">
+            <p class="script-empty">왼쪽 칸을 채우고 <b>신고 문장 만들기</b>를 눌러 주세요.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -326,6 +392,6 @@
   </div>
 </footer>
 <div class="toast" id="toast" role="status"></div>
-<script src="app.js?v=3"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>
